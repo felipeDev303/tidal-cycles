@@ -1,3 +1,21 @@
-d1 $ s "bd:5 sn:1 bd:5 sn:1"
+-- Dub Techno Basic Channel Style
 
-d2 $ s "hh*8"
+-- Drum Rack Dub
+
+-- Kick Dub
+d1 $ sound "bd:9*4" # gain 1 # room 0.1 # sz 0.8 # lpf 250 # orbit 0
+-- Snare Dub
+d2 $ sound "hh:17*2 ~ hh:17 ~" # gain 0.8 # room 0.2 # sz 0.3 # lpf 200 # orbit 1 
+-- Hi-Hat Dub
+d3 $ sound "hh:9*8" # gain 0.6 # room 0.2 # sz 0.5 # lpf 6000 # orbit 2
+-- Bassline Dub
+d4 $ n "e2 g2 g2 b1" # sound "superpiano" # legato 1 # sustain 0.5 # gain 0.5 # room 0.3 # sz 0.6 # lpf 300 # orbit 3
+
+-- Control de tempo
+setcps 0.6 -- Aproximadamente 72 BPM
+d1 silence
+d4 silence
+
+-- Secuencias de percusión
+
+hush -- Silence all patterns
