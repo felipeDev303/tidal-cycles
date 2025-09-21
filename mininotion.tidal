@@ -1,0 +1,50 @@
+-- Mini notation worksheet
+
+-- Play a "jazz" sound (the first one in the folder)
+d1 $ s "jazz"
+
+-- Play a diffenerent sound from the "jazz" folder (the fourth one, counted from 0)
+d2 $ s "jazz:3"
+
+-- Play a kick - snare loop. Norice two sounds fit in the same time as one did above
+d1 $ s "bd sn"
+
+-- The more you add, the faster it goes - the 'cycle' stay constant
+d1 $ s "bd sn bd sn"
+
+d1 $ s "bd sn bd sn bd sn bd sn"
+
+-- again, we can pick sound with : and a number
+d1 $ s "bd:2 sn:1 bd:3 sn:0"
+
+-- If they're all from the same folder, it's easier to pattern 
+-- The sounds using a separate "n" pattern, like this:
+d1 $ n "0 1 0 1" # s "bd sn bd sn" 
+
+-- You can have an 'empty' step, known as a musical rest, with '~'
+d1 $ n "0 ~ 0 ~" # s "bd sn bd sn"
+
+d1 $ sound "bd sn ~ sn:4"
+
+-- You can also "break down" a step into subsequence, with [ and ]
+
+-- Lets start with a simple pattern
+d1 $ sound "hh sd hh sd"
+
+-- And squeeze a two-step subsequence inside that third step
+d1 $ sound "hh sd [hh hh] sd"
+
+-- It works for 'n' patterns too
+d1 $ n "7 7 [7 7 7] 7" # s "house"
+
+d2 $ n "3 3 [3 3 3] 3" # s "house"
+
+d3 $ n "0 0 [0 0 0] 0" # s "house"
+
+d4 $ n "4 ~ [~ ~ 4] [4 4 4]" # s "house"
+
+-- You can even break down a step inside a subsequence
+d1 $ s "hh sd [hh [hh sd hh sd]] sd" 
+
+-- Stop all sounds
+hush

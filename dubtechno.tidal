@@ -1,0 +1,204 @@
+-- ==============================================
+-- Dub Techno en TidalCycles 🌀
+-- ==============================================
+-- Basada en la guía DUBTECHNO.md
+-- ==============================================
+
+-- CONFIGURACIÓN GENERAL
+-- • Tempo: 120-135 BPM típico (configurar en SuperCollider)
+-- • Usar múltiples orbits para separar elementos
+-- • Enfoque en evolución continua, no loops estáticos
+
+-- Stop all sounds
+hush
+
+-- ==============================================
+-- I. BATERÍA Y PERCUSIÓN (ORBITS 1-4)
+-- ==============================================
+
+-- KICK PROFUNDO (Orbit 1)
+-- • Usa samples como "bd", "bd_boom" o sintetizados
+-- • Aplica filtro lpf pesado (80-120 Hz)
+-- • Modula el cutoff con LFOs lentos
+-- • Sustain corto, ganancia alta
+-- • Reverb mínimo para mantener definición
+d1 $ s "bd:9*4" # lpf (slow 8 $ range 80 120 $ sine) # cutoff 120 # sustain 0.1 # gain 0.9 # room 0.1 # orbit 1 
+d1 silence
+-- HI-HATS CON VARIACIÓN (Orbit 2)  
+-- • Usa "hh", "hh_closed", "hh_open"
+-- • Patrones de contratiempo: "~ x ~ x ~ x ~ [x ~]"
+-- • Modula pan y delta con funciones lentas
+-- • Delay sutil con feedback bajo
+-- • Cutoff alto para brillo controlado
+-- d2 $ 
+
+-- PERCUSIÓN ADICIONAL - SHAKERS (Orbit 3)
+-- • Samples: "shaker", "perc", elementos sutiles  
+-- • Patrones espaciados: "~ ~ x ~"
+-- • Pan hacia un lado (-0.4 o 0.4)
+-- • Ganancia muy baja (0.2)
+-- • Room reverb moderado
+-- d3 $ ...
+
+-- PERCUSIÓN ADICIONAL - RIMS/CLAPS (Orbit 4)
+-- • Samples: "rim", "cp", "click"
+-- • Patrones complementarios: "~ ~ ~ x"
+-- • Pan opuesto a shakers
+-- • Ganancia baja-media (0.25)
+-- d4 $ 
+-- ==============================================
+-- II. BAJO (ORBIT 5)
+-- ==============================================
+
+-- BAJO PROFUNDO CON MOVIMIENTO
+-- • Usa sintetizadores: "saw", "square", "bass"
+-- • Notas graves: eb1, gb1, ab1, etc.
+-- • Modula cutoff con perlin o sine lento
+-- • Resonance sutil (0.2)
+-- • Envolvente larga: attack corto, sustain largo
+-- • Compresión implícita con gain moderado
+-- d5 $ 
+
+-- ==============================================
+-- III. ARMONÍA Y ACORDES (ORBITS 6-7)
+-- ==============================================
+
+-- ACORDES ATMOSFÉRICOS PRINCIPALES (Orbit 6)
+-- • Progresiones jazz: Ebm9, Bbm7, Abmaj7, Gbmaj7
+-- • Usa chord, scale "minor", spread para inversiones
+-- • Sintetizadores: "supersquare", "supersaw", "superpiano" 
+-- • Sustain y release largos (0.5 y 4)
+-- • Room y size altos (0.7, 0.9)
+-- • Delay con feedback medio (0.5, 0.6)
+-- • Pan lento con sine para movimiento
+-- d6 $ ...
+
+-- ELEMENTO MELÓDICO OCASIONAL (Orbit 7)
+-- • Notas melódicas: eb4, bb4, gb4, ab4
+-- • Samples: "glockenspiel", "bells", "pads"
+-- • Aparición esporádica: struct "x ~ ~ ~ ~ ~ ~ ~"
+-- • Usa sometimes, rarely para variación
+-- • Cutoff alto, room y delay generosos
+-- • Pan fijo para equilibrio
+-- d7 $ ...
+
+-- ==============================================
+-- IV. TEXTURAS Y AMBIENTE (ORBITS 8-9)
+-- ==============================================
+
+-- TEXTURAS AMBIENTALES (Orbit 8)
+-- • Usa pinkNoise, noise2, o samples largos
+-- • Filtros lpf y hpf con modulación lenta (perlin)
+-- • Ganancia muy baja (0.05) para capa sutil
+-- • Pan aleatorio con irand
+-- • Room y size máximos (0.9, 0.95)
+-- • Sustain muy largo (16+)
+-- d8 $ ...
+
+-- DUB DELAYS Y EFECTOS ESPECIALES (Orbit 9)
+-- • Toma elementos existentes y aplica delay extremo
+-- • Usa feedback variable con perlin
+-- • Modula lpf del delay con sine
+-- • Ganancia baja para no dominar
+-- • Experimenta con "accidentes felices"
+-- d9 $ ...
+
+-- ==============================================
+-- V. TÉCNICAS AVANZADAS Y VARIACIÓN
+-- ==============================================
+
+-- PROBABILIDADES Y EVOLUCIÓN
+-- • sometimes, often, rarely para variación
+-- • every N (function) para cambios periódicos
+-- • once para eventos únicos
+-- • irand, rand para aleatoriedad controlada
+
+-- MODULACIÓN CRUZADA
+-- • Usa un patrón para controlar otro
+-- • orbit X $ s "sample" # param (orbit Y $ function)
+
+-- AUTOMATIZACIÓN DE PARÁMETROS
+-- • lag para suavizar cambios
+-- • slow N para evolución lenta
+-- • range min max $ function para modular
+
+-- ESTRUCTURAS RÍTMICAS EVOLUTIVAS
+-- • struct con patrones complejos
+-- • euclid para ritmos euclidianos
+-- • mask para aplicar patrones de máscara
+
+-- ==============================================
+-- VI. TRANSICIONES Y COMPOSICIÓN
+-- ==============================================
+
+-- FADE IN/OUT DE ELEMENTOS
+-- • fadeIn, fadeOut para transiciones suaves
+-- • Introduce elementos gradualmente
+-- • Retira elementos para crear "gaps" característicos
+
+-- FILTRADO EVOLUTIVO
+-- • Modula lpf, hpf con funciones lentas
+-- • Crea efecto "underwater" con filtros bajos
+-- • Combina múltiples tipos de filtros (lpf + hpf = bpf)
+
+-- DELAY EN CADENA
+-- • Combina múltiples delays con effect
+-- • Diferentes tiempos: 1/8, 1/4, 1/3
+-- • Feedback variable para evolución
+
+-- ==============================================
+-- VII. PROCESAMIENTO MASTER Y FINALIZACIÓN
+-- ==============================================
+
+-- CONTROL GLOBAL
+-- • mastereq "lowpass 80" para cohesión
+-- • Monitorea que ningún elemento domine
+-- • Balance entre definition y atmósfera
+
+-- GRABACIÓN Y REMUESTREO
+-- • Graba salidas para manipulación posterior
+-- • Crea "accidentes felices" y reutilízalos
+-- • Invierte, estira, repitchea elementos grabados
+
+-- ==============================================
+-- VIII. INSPIRACIÓN Y REFERENCIAS
+-- ==============================================
+
+-- ARTISTAS CLAVE PARA ESTUDIAR:
+-- • Basic Channel / Maurizio - minimalismo y profundidad
+-- • Deepchord / Echospace - texturas y ambient
+-- • Rhythm & Sound - influencias dub reggae
+-- • Fluxion - evolución y complejidad sutil
+-- • King Tubby, Lee Perry - técnicas dub originales
+
+-- ELEMENTOS A ANALIZAR:
+-- • Espacialidad y uso del silencio
+-- • Evolución de filtros y efectos  
+-- • Capas sutiles que aparecen/desaparecen
+-- • Relationship entre kick y bajo
+-- • Uso creativo del delay y reverb
+
+-- ==============================================
+-- COMANDOS DE CONTROL
+-- ==============================================
+
+-- Para silenciar todo:
+hush
+
+-- Para silenciar patrones específicos:
+-- d1 $ silence
+-- d2 $ silence
+-- etc.
+
+-- Para control de tempo (si es necesario):
+-- setcps 0.55  -- aproximadamente 132 BPM
+
+-- ==============================================
+-- ¡EMPIEZA SIMPLE Y CONSTRUYE GRADUALMENTE!
+-- 1. Kick + Bajo
+-- 2. + Hi-hats
+-- 3. + Acordes básicos  
+-- 4. + Texturas ambientales
+-- 5. + Elementos melódicos ocasionales
+-- 6. + Efectos y modulación avanzada
+-- ==============================================

@@ -1,0 +1,11 @@
+-- speeding up, repeating, and slowing down
+d1 $ s "bd sn*3"
+
+d1 $ s "bd [bd sn]*3"
+hush
+
+-- polyphony with , 
+
+-- rhythmic feet with .
+
+-- one step per cycle with < and >
