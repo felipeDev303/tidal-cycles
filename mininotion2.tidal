@@ -23,11 +23,28 @@ d1 $ s "[house:0 [house:5 house:2 house:4 house:3]/2]*2" -- repeat
 d1 $ fast 4 $ s "house:0 [house:2 house:5 house:5 house:2]/2" -- faster
 
 
--- stop all sounds
-hush
-
 -- polyphony with , 
+d1 $ s "house:0 house:6"
+d2 $ s "house:5*3"
+
+d1 $ s "house:0, house:6*3, mt ht lt mt" -- se apilan uno sobre otro (un layer por ciclo)
+d1 $ s "[house:0, house:6*3, mt ht lt mt] [cp:2 sn:2]" -- doble layer 
+
+d1 $ s "bd sd, arpy arpy:4 arpy:5" 
+
+d1 $ fast 4 $ s "bd sd, arpy arpy:4 arpy:5" -- este es igual
+d1 $ fast 4 $ s "[bd sd, arpy arpy:4 arpy:5]" -- a este
+d1 $ fast 4 $ s "{bd sd, arpy arpy:4 arpy:5}" -- pero acá se alinean perfectamente paso a paso
 
 -- rhythmic feet with .
+d1 $ s "[bd sd] [mt ht lt] [arpy arpy:4] [sn:2 cp:2 bd:2*2]" 
+d1 $ s "bd sd . mt [ht lt] . arpy arpy:4 . sn:2 cp:2 bd:2*2"
+
 
 -- one step per cycle with < and >
+
+d1 $ fast 4 $ s "house:0 [house:5 house:5 house:5]" 
+d1 $ fast 4 $ s "house:0 <mt [ht lt] lt> "
+
+-- stop all sounds
+hush
