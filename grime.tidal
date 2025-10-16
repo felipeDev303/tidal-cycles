@@ -1,0 +1,439 @@
+-- ============================================
+-- GRIME PRODUCTION TOOLKIT AVANZADO - TIDALCYCLES
+-- ============================================
+-- Basado en técnicas de producción del East London 2000-2003
+-- Filosofía: "Low-tech futurism" + "Dirty Digital" aesthetic
+-- ============================================
+
+-- ============================================
+-- 1. CONFIGURACIÓN Y TEMPO CARACTERÍSTICO
+-- ============================================
+
+-- Tempo clásico grime: 137-143 BPM (140 es el estándar)
+setcps (140/60/4)
+
+-- El tempo de 140 es el punto medio entre jungle (170) y hip hop (90)
+-- Esta configuración es FUNDAMENTAL para el feel del grime
+
+-- ============================================
+-- 2. DRUMS - BROKEN BEAT Y SINCOPACIÓN
+-- ============================================
+
+-- Patrón básico 1-2 (kick en 1 y 3, snare en 2 y 4)
+d1 $ sound "bd ~ sn ~ bd ~ sn ~" # gain 1.2
+
+-- Kick pesado y seco + snare metálica (estilo 808/909 sampledado)
+d1 $ stack [
+  sound "bd*2 ~ bd ~" # gain 1.3 # speed 0.9,
+  sound "~ ~ sn ~ ~ ~ sn ~" # gain 1.1 # speed 1.2
+]
+
+-- Broken beat: ritmo fragmentado típico del grime
+d1 $ sound "bd ~ ~ bd ~ sn ~ bd" # gain 1.2
+
+-- Hi-hats sincopados con patrón euclidiano
+d2 $ sound "hh(5,8)" 
+  # gain (range 0.7 1.1 $ fast 4 sine)
+  # speed (range 1.1 1.3 $ slow 2 sine)
+
+-- Hi-hats rápidos (sensación de urgencia)
+d2 $ sound "hh*16" 
+  # gain (range 0.6 0.9 $ fast 8 rand)
+  # speed (range 0.9 1.2 $ rand)
+  # pan (range 0.3 0.7 $ slow 3 sine)
+
+-- Drum pattern completo con swing
+d1 $ stack [
+  sound "bd bd ~ bd ~ bd ~ ~" # gain 1.3,
+  sound "~ ~ sn ~ ~ sn:1 ~ sn" # gain 1.2,
+  sound "hh(11,16)" # gain 0.8 # speed 1.2,
+  sound "~ ~ ~ ~ rim ~ ~ ~" # gain 0.7
+] # nudge (range 0 0.01 $ rand) -- Micro-timing para humanización
+
+-- ============================================
+-- 3. SUB-BASS - MONOFÓNICO Y WOBBLE
+-- ============================================
+
+-- Sub-bass sinusoidal puro (40-100 Hz)
+d3 $ note "c2 ~ ~ ~ ds2 ~ g2 ~"
+  # s "sine"
+  # lpf 120
+  # gain 1.6
+  # sustain 0.8
+
+-- Wobble bass con LFO lento (técnica clásica grime)
+d3 $ note "c2 ~ ds2 ~ g2 ~ as2 ~"
+  # s "supersquare"
+  # lpf (range 80 400 $ slow 2 sine)
+  # lpq 0.15
+  # gain 1.5
+  # detune 0.2
+
+-- Reese bass (dos ondas desafinadas)
+d3 $ note "c2(3,8)" 
+  # s "supersaw"
+  # lpf (range 100 300 $ slow 1 saw)
+  # lpq 0.2
+  # gain 1.4
+  # detune 0.5
+
+-- Bass line típica de grime (progresión C -> D# -> G -> A#)
+d3 $ note "c2 ~ ds2 ~ g2 ~ as2 ~"
+  # s "superpwm"
+  # lpf 200
+  # gain 1.5
+  # shape 0.3 -- Saturación suave
+
+-- ============================================
+-- 4. MELODÍAS - SINTETIZADORES AGRESIVOS Y 8-BIT
+-- ============================================
+
+-- Escala menor armónica (oscura y tensa)
+d4 $ note (scale "minorHarmonic" "0 3 5 7")
+  # s "supersquare"
+  # lpf 2000
+  # gain 0.9
+  # attack 0.01
+  # release 0.3
+
+-- Riff estilo videojuego (3-5 notas repetidas)
+d4 $ note "c5 ~ ds5 g5 ~ as5 ~ ~"
+  # s "superchip"
+  # speed (range 0.9 1.1 $ slow 4 sine)
+  # gain 0.9
+  # crush 6 -- Bitcrushing para textura digital
+
+-- Stabs metálicos (estilo sintetizador FM/Yamaha DX)
+d4 $ note "c5 ~ ~ ~ ds5 ~ ~ ~ g5 ~ ~ ~ as5 ~ ~ ~"
+  # s "supersquare"
+  # lpf 5000
+  # hpf 800
+  # gain 1.2
+  # attack 0.001
+  # release 0.15
+  # room 0.3
+
+-- Lead agresivo con distorsión
+d4 $ note (scale "phrygian" "<0 3 5 7>")
+  # s "supersaw"
+  # lpf 3500
+  # gain 0.9
+  # shape 0.6 -- Distorsión digital
+  # room 0.2
+
+-- ============================================
+-- 5. TEXTURA "DIRTY DIGITAL" - GLITCH Y RUIDO
+-- ============================================
+
+-- Glitch aleatorio (errores intencionales)
+d5 $ sound "glitch(5,16)" 
+  # speed (range 0.7 1.3 $ rand)
+  # crush (range 3 8 $ slow 4 sine)
+  # gain 0.6
+  # pan rand
+
+-- Bitcrushing severo (reducción de bits 16->8)
+d4 $ note "c5*4"
+  # s "superpiano"
+  # crush 4
+  # gain 0.8
+  # speed 0.8
+
+-- Clipping intencional (saturación extrema)
+d3 $ note "c2*2"
+  # s "superpwm"
+  # lpf 150
+  # gain 2.5 -- Overload intencional
+  # shape 0.9
+
+-- Sample recortado (menos de 1 segundo)
+d6 $ chop 32 $ sound "breaks165"
+  # gain 0.7
+  # speed (range 0.5 1.5 $ rand)
+  # crush 6
+
+-- ============================================
+-- 6. ESPACIALIZACIÓN MÍNIMA - MENOS ES MÁS
+-- ============================================
+
+-- El grime NO usa mucho reverb/delay
+-- El objetivo es dejar ESPACIO para el MC
+
+-- Reverb sutil solo en elementos secundarios
+d7 $ sound "rim ~ ~ ~ rim ~ ~ ~"
+  # room 0.2
+  # size 0.3
+  # gain 0.7
+
+-- Delay corto en hi-hats
+d2 $ sound "hh(7,16)"
+  # delay 0.3
+  # delaytime (1/16)
+  # delayfeedback 0.2
+  # gain 0.8
+
+-- ============================================
+-- 7. ESTRUCTURA TÍPICA - FORMATO "LEVEL"
+-- ============================================
+
+-- INTRO (8 compases) - Minimalista
+do
+  d1 $ sound "bd*2 ~ bd ~" # gain 1.2
+  d2 $ sound "hh(5,8)" # gain 0.7
+  d3 silence
+
+-- DROP 1 (16 compases) - MC entra
+do
+  d1 $ sound "bd bd ~ bd ~ sn ~ bd" # gain 1.3
+  d2 $ sound "hh*16" # gain 0.8
+  d3 $ note "c2 ~ ds2 ~ g2 ~ as2 ~" 
+     # s "superpwm" # lpf 200 # gain 1.5
+
+-- BREAK (4 compases) - Solo bass
+do
+  d1 silence
+  d2 silence
+  d3 $ note "c2*4" # s "sine" # lpf 100 # gain 1.6
+
+-- DROP 2 / RELOAD (16 compases) - Energía máxima
+do
+  d1 $ sound "bd bd ~ bd ~ bd sn bd" # gain 1.4
+  d2 $ sound "hh(11,16)" # gain 0.9 # speed 1.3
+  d3 $ note "c2 ~ ds2 ~ g2 ~ as2 ~"
+     # s "supersquare"
+     # lpf (range 100 400 $ slow 1 sine) # gain 1.5
+  d4 $ note "c5 ~ ds5 g5 ~ as5 ~ ~"
+     # s "supersquare" # gain 1.0 # crush 5
+
+-- OUTRO (8 compases) - Fade out
+do
+  d1 $ sound "bd*2 ~ bd ~" # gain (slow 8 $ range 1.2 0 saw)
+  d2 $ sound "hh(5,8)" # gain (slow 8 $ range 0.7 0 saw)
+  d3 silence
+  d4 silence
+
+-- ============================================
+-- 8. TÉCNICAS AVANZADAS - LIVE CODING GRIME
+-- ============================================
+
+-- Euclidean rhythms para broken beats complejos
+d1 $ sound "bd(5,8) ~ sn(3,8) ~" # gain 1.2
+
+-- Polyrhythm (ritmos superpuestos)
+d1 $ stack [
+  sound "bd(3,8)" # gain 1.3,
+  sound "sn(5,8)" # gain 1.1,
+  sound "hh(13,16)" # gain 0.7
+]
+
+-- Probabilidad (variación orgánica)
+d2 $ sound "hh*16?" # gain 0.8 # speed (range 1 1.3 $ rand)
+
+-- Stutter/glitch effect
+d4 $ stut 4 0.7 0.125 $ note "c5"
+  # s "supersquare" # gain 0.9 # crush 6
+
+-- Phasing (dos versiones levemente desincronizadas)
+d1 $ stack [
+  sound "bd*4" # gain 1.2,
+  slow 1.02 $ sound "bd*4" # gain 0.8 # pan 0.3
+]
+
+-- Degradación gradual (elementos que desaparecen)
+d2 $ degradeBy (slow 8 $ range 0 0.7 saw) 
+  $ sound "hh*16" # gain 0.8
+
+-- Reverse y chopping (manipulación de samples)
+d6 $ every 4 rev $ chop 16 $ sound "breaks165"
+  # gain 0.9 # speed 1.2
+
+-- ============================================
+-- 9. SIDECHAIN SIMULATION - DUCKING
+-- ============================================
+
+-- El kick "empuja" los demás elementos
+d1 $ sound "bd*4" # gain 1.4
+
+d5 $ note "c4'min7" 
+  # s "superpwm"
+  # gain (segment 4 $ range 0.4 1 $ slow 1 saw)
+  # lpf 1500
+
+-- ============================================
+-- 10. PATRONES GENERATIVOS - "BOSS LEVEL MUSIC"
+-- ============================================
+
+-- Bass line algorítmica usando Perlin noise
+d3 $ note (scale "minor" $ segment 8 $ range 0 7 $ perlin)
+  # s "superpwm"
+  # lpf 250
+  # gain 1.4
+  # octave 2
+
+-- Melodía evolutiva
+d4 $ note (scale "phrygian" $ slow 4 $ run 8)
+  # s "supersquare"
+  # speed (range 0.8 1.2 $ slow 8 sine)
+  # crush 5
+  # gain 0.9
+
+-- Hi-hats caóticos pero controlados
+d2 $ sound "hh*16"
+  # speed (range 0.9 1.4 $ segment 16 $ perlin)
+  # gain (range 0.5 1 $ segment 8 $ perlin)
+  # pan (slow 2 sine)
+
+-- ============================================
+-- 11. TRANSICIONES Y "RELOADS"
+-- ============================================
+
+-- Buildup con pitch rise
+d4 $ note "c5*16"
+  # s "supersquare"
+  # speed (slow 4 $ range 1 2 saw)
+  # gain (slow 4 $ range 0.5 1.2 saw)
+  # crush 4
+
+-- Drop explosivo (silence -> full)
+do
+  hush
+  d1 $ sound "bd bd ~ bd ~ bd sn bd" # gain 1.5
+  d2 $ sound "hh*16" # gain 1
+  d3 $ note "c2*2" # s "sine" # lpf 100 # gain 2
+
+-- Reverse cymbal para transición
+d8 $ sound "cymbal" 
+  # speed "-1" 
+  # gain 0.9 
+  # room 0.5
+
+-- Roll de snare (cada 8 compases)
+d1 $ every 8 (const $ sound "sn*16" # gain 1.2) 
+  $ sound "bd ~ sn ~ bd ~ sn ~"
+
+-- ============================================
+-- 12. ESCALAS Y PROGRESIONES GRIME
+-- ============================================
+
+-- Escala menor natural (C D Eb F G Ab Bb)
+d4 $ note (scale "minor" "0 2 3 5 7 8 10")
+  # s "supersquare" # gain 0.8
+
+-- Escala menor armónica (más tensión)
+d4 $ note (scale "harmonicMinor" "0 3 5 7")
+  # s "supersquare" # gain 0.8
+
+-- Frigio (sonido árabe/oscuro)
+d4 $ note (scale "phrygian" "0 1 3 5 7")
+  # s "supersquare" # gain 0.8
+
+-- Progresión clásica grime: i - bIII - v - bVII
+-- En C: Cm - Eb - Gm - Bb
+d4 $ note "<0'min 3'maj 7'min 10'maj>"
+  # s "superpwm"
+  # lpf 2000
+  # gain 0.7
+
+-- ============================================
+-- 13. SAMPLES RECOMENDADOS (SuperDirt)
+-- ============================================
+
+-- Drums: bd, sn, hh, rim, cp, clap
+-- Synths: supersquare, supersaw, superpwm, superchip
+-- Bass: sine (para sub-bass puro)
+-- FX: glitch, noise
+-- Breaks: breaks165, jungle
+
+-- ============================================
+-- 14. COMANDOS DE CONTROL LIVE
+-- ============================================
+
+-- Silenciar todo
+hush
+
+-- Silenciar pista individual
+d1 silence
+
+-- Solo una pista
+solo 1
+
+-- Quitar solo
+unsolo 1
+
+-- Transición suave (8 ciclos)
+xfadeIn 1 8 $ sound "bd*4"
+
+-- Resetear tempo
+setcps (140/60/4)
+
+-- ============================================
+-- 15. FILOSOFÍA DE PRODUCCIÓN GRIME
+-- ============================================
+
+-- 1. MINIMALISMO AGRESIVO
+--    Pocos elementos, cada uno con impacto máximo
+
+-- 2. ESPACIO PARA EL MC
+--    No llenar todo el espectro sonoro
+
+-- 3. TENSIÓN CONSTANTE
+--    Loop infinito sin resolución tonal
+
+-- 4. DIRTY DIGITAL
+--    Abrazar las imperfecciones (crush, clip, glitch)
+
+-- 5. REPETICIÓN HIPNÓTICA
+--    8-16 compases en loop, como un nivel de videojuego
+
+-- 6. LOW-TECH FUTURISM
+--    Sonido futurista con herramientas limitadas
+
+-- 7. DIY ATTITUDE
+--    Experimentación sin reglas
+
+-- ============================================
+-- 16. EJEMPLO COMPLETO - TRACK GRIME
+-- ============================================
+
+setcps (140/60/4)
+
+do
+  -- Drums
+  d1 $ sound "bd bd ~ bd ~ sn ~ bd"
+     # gain 1.3
+  -- Hi-hats
+  d2 $ sound "hh(11,16)"
+     # gain 0.8
+     # speed (range 1.1 1.3 $ slow 4 sine)
+  -- Sub-bass
+  d3 $ note "c2 ~ ds2 ~ g2 ~ as2 ~"
+     # s "supersquare"
+     # lpf (range 100 350 $ slow 2 sine)
+     # gain 1.5
+  -- Lead
+  d4 $ note "c5 ~ ds5 g5 ~ as5 ~ ~"
+     # s "supersquare"
+     # gain 0.9
+     # crush 5
+     # room 0.2
+  -- Glitch texture
+  d5 $ sound "glitch(5,16)"
+     # speed (range 0.8 1.2 $ rand)
+     # crush 6
+     # gain 0.5
+
+-- ============================================
+-- 17. RECURSOS Y SIGUIENTE NIVEL
+-- ============================================
+
+-- Para sonidos más auténticos:
+-- 1. Busca sample packs de "UK Garage" y "Grime"
+-- 2. Graba tus propios samples y procésalos
+-- 3. Usa VSTi como FM8 para sonidos más complejos
+-- 4. Experimenta con modulación por código
+
+-- Productores para estudiar:
+-- Wiley, Dizzee Rascal, Jammer, Ruff Sqwad, 
+-- Terror Danjah, Slaughter Mob, Roll Deep
+
+-- ¡RELOAD! 🔥

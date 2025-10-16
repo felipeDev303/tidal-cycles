@@ -1,0 +1,630 @@
+-- ============================================
+-- PERLON STYLE PRODUCTION TOOLKIT - TIDALCYCLES
+-- ============================================
+-- "Lo-Fi Minimal Deep - Darker Side Engineering"
+-- Filosofía: Texturas evolutivas + Swing artesanal + Degradación elegante
+-- ============================================
+
+-- ============================================
+-- 1. CONFIGURACIÓN Y TEMPO
+-- ============================================
+
+-- Tempo típico Perlon: 120-125 BPM (minimal house profundo)
+setcps (122/60/4)
+
+-- El tempo debe ser estable pero con micro-variaciones
+setcps (slow 64 $ range 0.505 0.515 sine)
+
+-- ============================================
+-- 2. GAIN STAGING - FUNDAMENTAL
+-- ============================================
+
+-- REGLA DE ORO PERLON: Todo entre -8dB y -12dB
+-- Esto permite que el summing mixer trabaje óptimamente
+
+-- Configuración global de ganancia baja
+dAll $ (# gain 0.6) -- Aproximadamente -8dB
+
+-- ============================================
+-- 3. KICK - PUNCHY Y DEFINIDO
+-- ============================================
+
+-- Kick básico con filtrado (mono, punch)
+d1 $ sound "bd*4"
+  # gain 0.8  -- -6dB aproximadamente
+  # lpf 120
+  # hpf 40
+  # shape 0.4  -- Saturación SSL-style
+  # room 0.1
+
+-- Kick con ajuste manual de punch (técnica Villalobos)
+d1 $ sound "bd*4"
+  # gain 0.8
+  # begin 0.01  -- Ajustar start point manualmente
+  # lpf 110
+  # shape 0.5
+  # crush 0.5  -- Degradación sutil
+
+-- Kick con Glue Compressor simulation
+d1 $ sound "bd*4"
+  # gain 0.85
+  # lpf 120
+  # shape 0.4
+  # coarse (slow 8 $ range 1 1.2 sine)  -- Simulación compresión
+
+-- Kick Perlon completo (mono, EQ, saturación)
+d1 $ sound "bd*4"
+  # gain 0.8
+  # begin 0.01
+  # lpf 115
+  # hpf 45
+  # shape 0.45  -- SSL saturation
+  # room 0.08
+  # crush 0.3
+  # pan 0.5  -- Centro absoluto (mono)
+
+-- ============================================
+-- 4. SWING Y GROOVE - MANUAL Y ARTESANAL
+-- ============================================
+
+-- NO usar swing preestablecido, mover notas manualmente
+-- "A little shuffle, not too much"
+
+-- Hi-hats con swing manual (desplazamiento sutil)
+d2 $ sound "~ hh ~ hh ~ hh ~ hh"
+  # gain 0.5
+  # lpf 6000
+  # nudge "0 0.02 0 0.03"  -- Micro-timing manual
+
+-- Swing implementado con euclidean patterns
+d2 $ sound "hh(7,8)"
+  # gain (range 0.4 0.6 $ slow 2 perlin)
+  # lpf (range 4000 8000 $ slow 8 perlin)
+  # nudge (range 0 0.03 $ rand)
+
+-- Claps apilados (stack de varios samples)
+d3 $ stack [
+  sound "cp" # gain 0.5,
+  sound "cp:1" # gain 0.45 # speed 0.98,
+  sound "cp:2" # gain 0.4 # speed 1.02
+  ]
+  # delay 0.02
+  # lpf 5000
+
+-- Groove con desplazamiento manual de elementos
+d3 $ sound "~ cp ~ ~ ~ cp ~ ~"
+  # gain 0.55
+  # nudge "0 0.015 0 0 0 0.025 0 0"
+  # lpf 6000
+  # room 0.2
+
+-- ============================================
+-- 5. TEXTURAS - SIEMPRE EVOLUCIONANDO
+-- ============================================
+
+-- CLAVE: Las texturas deben cambiar constantemente
+-- Construir soundscape de 5-6 minutos evolutivo
+
+-- Ruido de vinilo (vinyl noise) en altas frecuencias
+d4 $ slow 4
+  $ sound "noise"
+  # gain 0.15  -- Muy bajo
+  # hpf 8000  -- Solo altas frecuencias
+  # lpf (slow 32 $ range 9000 12000 perlin)
+  # pan (slow 16 $ sine)
+  # crush (slow 64 $ range 6 10 perlin)
+
+-- Soundscape atmosférico base
+d5 $ slow 8
+  $ sound "ambient pad"
+  # n (slow 16 $ run 8)
+  # gain 0.3
+  # lpf (slow 32 $ range 500 2000 perlin)
+  # hpf 200
+  # room 0.7
+  # size 0.8
+  # crush (slow 48 $ range 2 6 perlin)
+
+-- Textura granular evolutiva
+d6 $ striate 128
+  $ sound "field"
+  # gain 0.25
+  # speed (slow 16 $ range 0.3 0.7 perlin)
+  # lpf (slow 24 $ range 400 1500 perlin)
+  # pan (slow 8 $ sine)
+  # room 0.6
+
+-- Glitches y sparks (noción de tiempo)
+d7 $ degradeBy 0.7
+  $ sound "glitch click"
+  # n (irand 16)
+  # gain (range 0.1 0.3 $ rand)
+  # speed (range 0.5 2 $ rand)
+  # pan rand
+  # hpf 2000
+  # crush 8
+
+-- Textura de "reloj roto" (variaciones de tono)
+d8 $ slow 2
+  $ sound "tick*16"
+  # gain 0.2
+  # speed (range 0.8 1.5 $ slow 8 perlin)
+  # pan (slow 4 $ sine)
+  # lpf 4000
+  # crush 6
+
+-- ============================================
+-- 6. BAJO - SATURADO Y CRUJIENTE
+-- ============================================
+
+-- Bajo Perlon: muy saturado, distorsionado, filtrado
+-- "Very crunchy" pero a volumen bajo
+
+-- Bass básico con saturación extrema
+d9 $ note "0 ~ 3 ~"
+  # sound "bass"
+  # gain 0.4  -- Bajo volumen
+  # shape 0.9  -- Distorsión/saturación alta
+  # lpf 150
+  # hpf 60
+  # crush 4  -- Crujiente
+
+-- Bass con degradación y filtrado
+d9 $ note "0 ~ 3 ~ 5 ~ 7 ~"
+  # sound "superpwm"
+  # gain 0.35
+  # shape 0.85
+  # lpf (slow 4 $ range 100 200 sine)
+  # crush (slow 8 $ range 3 6 perlin)
+  # room 0.1
+
+-- Bass line minimalista funky
+d9 $ note "[0 ~ 3 ~]*2"
+  # sound "supersquare"
+  # gain 0.4
+  # shape 0.9
+  # lpf 180
+  # crush 5
+  # nudge (range 0 0.02 $ rand)  -- Swing manual
+
+-- Reese bass Perlon (saturado y oscuro)
+d9 $ note "0(3,8)"
+  # sound "supersaw"
+  # gain 0.38
+  # shape 0.95
+  # lpf 140
+  # detune 0.5
+  # crush 4
+  # room 0.08
+
+-- ============================================
+-- 7. FRECUENCIAS ALTAS LIMITADAS
+-- ============================================
+
+-- REGLA: Escasez de altas frecuencias
+-- Solo hi-hats y elementos selectos arriba de 4kHz
+
+-- Hi-hat como único elemento brillante
+d2 $ sound "hh(5,8)"
+  # gain 0.5
+  # lpf 8000  -- Límite superior
+  # hpf 4000  -- Rango controlado
+  # pan (slow 8 $ range 0.3 0.7 sine)
+
+-- Guitar tops o elementos melódicos (Omnisphere-style)
+d10 $ slow 4
+  $ note (scale "minor" "0 3 5")
+  # sound "superpiano"
+  # gain 0.3
+  # hpf 3000  -- Solo "tops"
+  # lpf 10000
+  # room 0.6
+  # delay 0.5
+  # delayfb 0.6
+  # crush 3
+
+-- Percusión filtrada (sin brillo)
+d3 $ sound "perc*4"
+  # gain 0.4
+  # lpf 3000  -- Limitar altas
+  # pan (slow 4 $ sine)
+
+-- ============================================
+-- 8. DEGRADACIÓN Y ENVEJECIMIENTO
+-- ============================================
+
+-- OBJETIVO: Que todo suene "viejo"
+
+-- Bit crushing global (oscurecer frecuencias)
+dAll $ (# crush (slow 32 $ range 1 4 perlin))
+
+-- Redux simulation (degradación digital)
+d11 $ sound "loop"
+  # gain 0.4
+  # crush 6
+  # coarse 8
+  # speed (slow 16 $ range 0.95 1.05 perlin)
+
+-- Saturación vintage global
+dAll $ (# shape (slow 24 $ range 0.2 0.4 sine))
+
+-- Emulación de cinta (tape emulation)
+dAll $ (# shape 0.3 # lpf 8000)
+
+-- Nasty noisy textures en el fondo
+d12 $ slow 8
+  $ sound "noise"
+  # gain 0.12
+  # lpf (slow 64 $ range 200 1000 perlin)
+  # crush 8
+  # room 0.5
+
+-- ============================================
+-- 9. SIDECHAIN - KICK ATRAVIESA TEXTURAS
+-- ============================================
+
+-- Técnica de supresión: kick define el espacio
+-- Simulación de multiband sidechain
+
+-- Kick como fuente
+d1 $ sound "bd*4" # gain 0.8
+
+-- Texturas comprimidas por el kick
+d5 $ sound "pad"
+  # gain (segment 4 $ range 0.2 0.5 $ slow 1 saw)
+  # lpf 2000
+
+-- Bajo con ducking
+d9 $ note "0 ~ 3 ~"
+  # sound "bass"
+  # gain (segment 4 $ range 0.25 0.45 $ slow 1 saw)
+
+-- Texturas con sidechain más sutil
+d6 $ sound "ambient"
+  # gain (segment 4 $ range 0.3 0.4 $ slow 1 saw)
+
+-- ============================================
+-- 10. EFECTOS Y PROCESAMIENTO
+-- ============================================
+
+-- Modulación en rango medio (parallel)
+d13 $ sound "chord"
+  # note "0'min7"
+  # gain 0.35
+  # lpf (slow 8 $ range 800 1500 perlin)
+  # hpf 300
+  # room 0.6
+  # delay 0.4
+  # delayfb 0.5
+
+-- Auto pan sutil
+d14 $ sound "perc*8"
+  # gain 0.3
+  # pan (slow 4 $ sine)
+  # lpf 2000
+
+-- Widening estéreo (Bass Mono concept)
+-- Todo abajo de 120 Hz en mono, arriba ensanchado
+d15 $ sound "synth"
+  # gain 0.4
+  # lpf (slow 8 $ range 400 2000 perlin)
+  # pan (slow 8 $ range 0.2 0.8 sine)
+
+-- Reverb espaciosa pero controlada
+d5 $ sound "pad"
+  # gain 0.3
+  # room 0.7
+  # size 0.8
+  # lpf 1500
+
+-- ============================================
+-- 11. COLORACIÓN PERLON - UNIFORMIDAD
+-- ============================================
+
+-- Toda la producción debe tener la misma "coloración"
+-- EQ + saturación + tape emulation
+
+-- Aplicar coloración global
+dAll $ (# shape 0.35)
+     . (# lpf 9000)
+     . (# crush 2)
+     . (# room 0.15)
+
+-- EQ Pultec-style en kick
+d1 $ sound "bd*4"
+  # gain 0.8
+  # lpf 120
+  # resonance 0.3  -- Bump analógico
+  # shape 0.4
+
+-- ============================================
+-- 12. ESTRUCTURA TÍPICA PERLON
+-- ============================================
+
+-- Las pistas duran 6-7 minutos
+-- Evolución constante, sin repetición exacta
+
+-- INTRO (32-64 compases) - Texturas y groove mínimo
+do
+  d1 $ sound "bd*4" # gain 0.7 # lpf 110 # shape 0.3
+  d2 $ sound "hh(5,8)" # gain 0.4 # lpf 6000
+  d4 $ sound "noise" # gain 0.12 # hpf 8000 # crush 8
+  d5 $ slow 8 $ sound "ambient" # gain 0.25 # crush 4
+
+-- DESARROLLO (64-96 compases) - Construcción gradual
+do
+  d1 $ sound "bd*4" # gain 0.8 # lpf 115 # shape 0.4
+  d2 $ sound "hh(7,8)" # gain 0.5 # lpf 7000
+  d3 $ stack [
+    sound "cp" # gain 0.5,
+    sound "cp:1" # gain 0.45
+  ]
+  d4 $ sound "noise" # gain 0.15 # hpf 8000
+  d5 $ sound "ambient pad" # gain 0.3 # crush 5
+  d7 $ degradeBy 0.7 $ sound "glitch*16" # gain 0.2
+
+-- GROOVE (96-192 compases) - Todos los elementos
+do
+  d1 $ sound "bd*4" # gain 0.8 # shape 0.45
+  d2 $ sound "hh(7,8)" # gain 0.5 # nudge (range 0 0.03 rand)
+  d3 $ stack [
+    sound "cp" # gain 0.5,
+    sound "cp:1" # gain 0.45,
+    sound "cp:2" # gain 0.4
+  ]
+  d4 $ sound "noise" # gain 0.15 # hpf 8000
+  d5 $ sound "ambient" # gain 0.3 # crush 5
+  d6 $ striate 128 $ sound "field" # gain 0.25
+  d7 $ sound "glitch*16" # gain 0.2 # pan rand
+  d8 $ sound "tick*16" # gain 0.2 # speed (slow 8 perlin)
+  d9 $ note "0 ~ 3 ~ 5 ~" # sound "bass" 
+     # gain 0.4 # shape 0.9 # crush 4
+  d10 $ slow 4 $ note "0 3 5" # sound "superpiano"
+     # gain 0.3 # hpf 3000
+
+-- BREAKDOWN (32-64 compases) - Reducción al núcleo
+do
+  d1 $ sound "bd*4" # gain 0.7
+  d5 $ sound "ambient" # gain 0.35
+  d4 $ sound "noise" # gain 0.18
+  d2 silence
+  d3 silence
+  d9 silence
+
+-- OUTRO (64 compases) - Texturas desvaneciéndose
+do
+  d1 $ sound "bd*4" # gain (slow 32 $ range 0.8 0 saw)
+  d5 $ sound "ambient" # gain (slow 32 $ range 0.3 0 saw)
+  d4 $ sound "noise" # gain (slow 32 $ range 0.15 0 saw)
+
+-- ============================================
+-- 13. TÉCNICAS AVANZADAS PERLON
+-- ============================================
+
+-- Modulación cruzada múltiple
+dAll $ (# lpf (slow 48 $ range 400 6000 perlin))
+     . (# gain (slow 32 $ range 0.5 0.7 sine))
+     . (# crush (slow 64 $ range 1 5 perlin))
+     . (# shape (slow 24 $ range 0.2 0.5 sine))
+
+-- Soundscape evolutivo de 5-6 minutos
+d5 $ slow 32
+  $ sound "ambient pad field"
+  # n (slow 64 $ run 16)
+  # gain (slow 128 $ range 0.2 0.4 sine)
+  # lpf (slow 256 $ range 300 2000 perlin)
+  # crush (slow 192 $ range 2 8 perlin)
+  # pan (slow 64 $ sine)
+
+-- Glitches con noción de tiempo
+d7 $ degradeBy 0.75
+  $ sound "click glitch spark"
+  # n (irand 24)
+  # gain (range 0.08 0.25 rand)
+  # speed (range 0.3 2.5 rand)
+  # pan rand
+  # crush (range 6 12 rand)
+
+-- Phasing sutil (técnica Villalobos)
+d10 $ stack [
+  note "0 3 5" # sound "superpiano" # gain 0.3,
+  slow 1.003 $ note "0 3 5" # sound "superpiano" 
+    # gain 0.25 # pan 0.3
+]
+
+-- Reverse elements (experimental)
+d11 $ every 8 rev
+  $ sound "cymbal"
+  # speed "-0.5"
+  # gain 0.3
+  # room 0.8
+  # crush 5
+
+-- ============================================
+-- 14. MINIMALISMO FUNKY
+-- ============================================
+
+-- Menos elementos, más groove y pegada
+
+-- Patrón minimalista completo
+do
+  d1 $ sound "bd*4" # gain 0.8 # shape 0.4
+  d2 $ sound "hh(5,8)" # gain 0.5 # nudge (range 0 0.02 rand)
+  d3 $ sound "~ cp ~ ~" # gain 0.5
+  d9 $ note "0 ~ 3 ~" # sound "bass" # gain 0.4 # shape 0.9
+
+-- Cada elemento tiene espacio para respirar
+-- No llenar todo el espectro
+
+-- ============================================
+-- 15. COMANDOS DE CONTROL
+-- ============================================
+
+-- Silenciar todo
+hush
+
+-- Silenciar pista individual
+d1 silence
+
+-- Reset tempo
+setcps (122/60/4)
+
+-- Fade out gradual
+dAll $ (# gain (slow 32 $ range 0.6 0 saw))
+
+-- ============================================
+-- 16. FILOSOFÍA Y PRINCIPIOS PERLON
+-- ============================================
+
+-- 1. GAIN STAGING: -8dB a -12dB siempre
+--    Permite al summing mixer trabajar óptimamente
+
+-- 2. COLORACIÓN UNIFORME
+--    EQ + Saturación + Tape = identidad sonic
+
+-- 3. TEXTURAS EVOLUTIVAS
+--    Nunca el mismo sonido dos veces
+
+-- 4. SWING ARTESANAL
+--    Manual, no presets de MPC
+
+-- 5. KICK DEFINE EL ESPACIO
+--    Todo se suprime para que el kick atraviese
+
+-- 6. LO-FI ELEGANTE
+--    Degradación intencional, no por accidente
+
+-- 7. MINIMAL PERO FUNKY
+--    Pocos elementos con máximo groove
+
+-- 8. FRECUENCIAS LIMITADAS
+--    Oscuro, sin brillo excesivo
+
+-- 9. SOUNDSCAPE PRIMERO
+--    Construir atmósfera de 5-6 min evolutiva
+
+-- 10. DURACIÓN EXTENDIDA
+--     6-7 minutos para desarrollo completo
+
+-- ============================================
+-- 17. EJEMPLO COMPLETO - TRACK PERLON
+-- ============================================
+
+setcps (122/60/4)
+
+do
+  -- Kick punchy y definido
+  d1 $ sound "bd*4"
+     # gain 0.8
+     # begin 0.01
+     # lpf 115
+     # shape 0.45
+     # crush 0.5
+     # room 0.08
+  
+  -- Hi-hats con swing manual
+  d2 $ sound "hh(7,8)"
+     # gain 0.5
+     # lpf (range 5000 7000 $ slow 8 perlin)
+     # nudge (range 0 0.03 $ rand)
+     # pan (slow 8 $ range 0.3 0.7 sine)
+  
+  -- Claps apilados
+  d3 $ stack [
+    sound "cp" # gain 0.5,
+    sound "cp:1" # gain 0.45 # speed 0.98,
+    sound "cp:2" # gain 0.4 # speed 1.02
+  ]
+  
+  -- Vinyl noise (muy bajo)
+  d4 $ slow 4 $ sound "noise"
+     # gain 0.15
+     # hpf 8000
+     # lpf (slow 32 $ range 9000 12000 perlin)
+     # crush 8
+  
+  -- Soundscape evolutivo
+  d5 $ slow 8 $ sound "ambient pad"
+     # gain 0.3
+     # lpf (slow 32 $ range 500 2000 perlin)
+     # crush (slow 48 $ range 2 6 perlin)
+     # room 0.7
+  
+  -- Textura granular
+  d6 $ striate 128 $ sound "field"
+     # gain 0.25
+     # speed (slow 16 $ range 0.3 0.7 perlin)
+  
+  -- Glitches y sparks
+  d7 $ degradeBy 0.7 $ sound "glitch*16"
+     # gain (range 0.1 0.25 rand)
+     # speed (range 0.5 2 rand)
+     # pan rand
+     # crush 8
+  
+  -- Reloj roto
+  d8 $ slow 2 $ sound "tick*16"
+     # gain 0.2
+     # speed (range 0.8 1.5 $ slow 8 perlin)
+  
+  -- Bass saturado y crujiente
+  d9 $ note "0 ~ 3 ~ 5 ~"
+     # sound "bass"
+     # gain 0.4
+     # shape 0.9
+     # lpf 150
+     # crush 4
+  
+  -- Guitar tops
+  d10 $ slow 4 $ note "0 3 5"
+     # sound "superpiano"
+     # gain 0.3
+     # hpf 3000
+     # room 0.6
+     # crush 3
+
+-- Coloración global
+dAll $ (# shape 0.35)
+     . (# lpf 9000)
+     . (# crush 2)
+
+-- ============================================
+-- 18. RECURSOS Y WORKFLOW
+-- ============================================
+
+-- 1. PREPARACIÓN
+--    Buscar texturas y soundscapes antes de empezar
+--    Samples de Loop Cloud, Splice
+
+-- 2. SOUNDSCAPE PRIMERO
+--    Construir atmósfera de 5-6 minutos evolutiva
+
+-- 3. AGREGAR GROOVE
+--    Kick, hi-hats, claps con swing manual
+
+-- 4. BAJO SATURADO
+--    Crujiente pero a bajo volumen
+
+-- 5. TEXTURAS CAPAS
+--    Vinyl noise, glitches, reloj roto
+
+-- 6. COLORACIÓN UNIFORME
+--    Aplicar EQ, saturación, tape a todo
+
+-- 7. GAIN STAGING
+--    Verificar que todo esté -8 a -12dB
+
+-- 8. SIDECHAIN
+--    Kick atraviesa todas las texturas
+
+-- 9. EVOLUCIÓN
+--    Nada se repite exactamente igual
+
+-- 10. DURACIÓN
+--     Dejar evolucionar 6-7 minutos
+
+-- ============================================
+-- "El sonido Perlon no se produce, se cultiva con paciencia"
+-- Cada detalle importa: el gain, la saturación, el swing manual
+-- TidalCycles permite la evolución orgánica necesaria
+-- ============================================

@@ -1,0 +1,647 @@
+-- ============================================
+-- DUB TECHNO PRODUCTION TOOLKIT - TIDALCYCLES
+-- ============================================
+-- "Menos es más. Movimiento, atmósfera y textura son tus instrumentos principales"
+-- Filosofía: Profundidad + Evolución Orgánica + Espacio
+-- ============================================
+
+-- ============================================
+-- 1. CONFIGURACIÓN Y TEMPO CARACTERÍSTICO
+-- ============================================
+
+-- Tempo típico Dub Techno: 115-122 BPM (deep, hypnotic groove)
+setcps (118/60/4)
+
+-- Modulación sutil del tempo (efecto cinta vintage)
+setcps (slow 16 $ range 0.46 0.52 sine)
+
+-- Rango de tempos por subgénero:
+-- Deep Dub Techno: 115-118 BPM
+-- Classic Dub Techno: 118-122 BPM
+-- Minimal Dub: 120-124 BPM
+
+-- ============================================
+-- 2. KICK - PROFUNDO Y NO-DOMINANTE
+-- ============================================
+
+-- Kick básico filtrado (80-120 Hz)
+d1 $ sound "bd*4"
+  # gain 0.9
+  # lpf 120
+  # shape 0.2
+  # room 0.3
+  # size 0.4
+
+-- Kick con modulación de filtro (movimiento sutil)
+d1 $ sound "bd*4"
+  # gain 0.9
+  # lpf (slow 8 $ range 90 120 sine)
+  # shape 0.25
+  # room 0.3
+  # size 0.4
+  # cutoff (slow 16 $ range 80 110 perlin)
+
+-- Kick con variación probabilística (humanización)
+d1 $ sometimesBy 0.1 (# gain 0.95)
+  $ sound "bd*4"
+  # lpf 115
+  # shape 0.2
+  # room 0.35
+  # size 0.45
+
+-- Kick con ataque suave (envolvente larga)
+d1 $ sound "bd*4"
+  # gain 0.9
+  # lpf 120
+  # attack 0.05
+  # decay 0.3
+  # sustain 0.4
+  # release 0.3
+  # room 0.3
+
+-- ============================================
+-- 3. HI-HATS - SUTILES Y VARIADOS
+-- ============================================
+
+-- Hi-hats básicos con contratiempo
+d2 $ sound "~ hh ~ hh ~ hh ~ hh"
+  # gain 0.6
+  # lpf 4000
+  # pan (slow 8 $ sine)
+
+-- Hi-hats con modulación Perlin (movimiento orgánico)
+d2 $ sometimesBy 0.3 (|+ speed "0.9 1.1")
+  $ sound "hh*8"
+  # gain 0.6
+  # lpf (range 2000 4000 $ perlin)
+  # pan (slow 8 $ range 0.3 0.7 sine)
+  # room 0.4
+  # size 0.6
+
+-- Hi-hats con variación de velocidad
+d2 $ sound "hh*8"
+  # gain (range 0.5 0.7 $ slow 4 sine)
+  # speed (range 0.9 1.2 $ slow 8 perlin)
+  # lpf (slow 16 $ range 2500 5000 sine)
+  # pan (slow 12 $ range 0.2 0.8 sine)
+
+-- Open hi-hats ocasionales
+d2 $ sound "hh*8 [~ oh]"
+  # gain 0.6
+  # lpf 4500
+  # delay 0.3
+  # delaytime (1/8)
+  # delayfb 0.4
+
+-- ============================================
+-- 4. PERCUSIÓN ADICIONAL - TEXTURAL
+-- ============================================
+
+-- Rims y shakers sutiles
+d3 $ sometimes (|+ gain 0.1)
+  $ sound "rim*2 [~ rim] [shaker*3]"
+  # gain 0.4
+  # pan (slow 16 $ range 0.2 0.8 sine)
+  # delay 0.4
+  # delayfb 0.5
+  # lpf 3000
+
+-- Claps espaciados con reverb profunda
+d3 $ sound "~ ~ cp ~"
+  # gain 0.5
+  # room 0.7
+  # size 0.8
+  # delay 0.5
+  # delayfb 0.6
+
+-- Percusión aleatoria sutil
+d3 $ degradeBy 0.6
+  $ sound "perc*8"
+  # n (irand 8)
+  # gain 0.4
+  # pan rand
+  # lpf (range 1000 3000 $ perlin)
+
+-- Percusión con aparición probabilística
+d3 $ whenmod 8 6 (# gain 0.5)
+  $ sound "rim ~ shaker ~ perc ~"
+  # gain 0.3
+  # room 0.5
+  # pan (slow 8 sine)
+
+-- ============================================
+-- 5. BAJO - PROFUNDO CON MOVIMIENTO ORGÁNICO
+-- ============================================
+
+-- Sub-bass básico (60-120 Hz)
+d4 $ note "0 [~ 3]"
+  # sound "bass"
+  # gain 0.8
+  # lpf 100
+  # shape 0.3
+  # room 0.2
+  # size 0.5
+
+-- Bass con modulación Perlin (subacuático)
+d4 $ note "0 [~ 3] [~ 5] ~"
+  # sound "bass"
+  # gain 0.8
+  # lpf (slow 8 $ range 60 120 perlin)
+  # shape 0.3
+  # cutoff (range 80 120 sine)
+  # room 0.2
+  # size 0.5
+  # crush (slow 32 $ range 0 2 perlin)
+
+-- Bass line melódico sutil
+d4 $ slow 2
+  $ note "0 3 5 7"
+  # sound "superpwm"
+  # gain 0.7
+  # lpf (slow 4 $ range 80 150 sine)
+  # attack 0.2
+  # decay 0.4
+  # sustain 0.6
+  # release 0.8
+  # room 0.3
+
+-- Bass con envolvente larga
+d4 $ note "0*2"
+  # sound "supersquare"
+  # gain 0.8
+  # lpf 100
+  # attack 0.3
+  # release 1.5
+  # shape 0.4
+  # room 0.25
+
+-- ============================================
+-- 6. ACORDES - ATMOSFÉRICOS Y JAZZY
+-- ============================================
+
+-- Acordes extendidos básicos (7th, 9th)
+d5 $ slow 2
+  $ note "0'min7 3'maj7 5'min7 7'maj7"
+  # sound "superpiano"
+  # gain 0.7
+  # attack 0.5
+  # release 2
+  # lpf 2000
+  # room 0.8
+  # size 0.9
+
+-- Progresión típica Dub Techno (Ebm9, Abmaj7, Bbm7)
+d5 $ slow 4
+  $ note "[3'min9 8'maj7 10'min7]"
+  # sound "superpwm"
+  # gain 0.6
+  # attack 0.6
+  # release 2.5
+  # lpf (range 800 2500 $ slow 8 perlin)
+  # room 0.8
+  # size 0.9
+  # delay 0.6
+  # delayfb 0.7
+
+-- Acordes con modulación de filtro
+d5 $ slow 2
+  $ note "0'min7 ~ 5'min7 ~"
+  # sound "superpwm"
+  # gain 0.7
+  # lpf (slow 16 $ range 500 3000 perlin)
+  # hpf 200
+  # attack 0.8
+  # release 3
+  # room 0.85
+  # size 0.95
+
+-- Pads largos y profundos
+d5 $ slow 8
+  $ note "0'min9"
+  # sound "superpwm"
+  # gain 0.5
+  # attack 2
+  # release 6
+  # lpf 1500
+  # room 0.9
+  # size 1
+  # delay 0.8
+  # delayfb 0.8
+
+-- ============================================
+-- 7. TEXTURAS Y AMBIENTES
+-- ============================================
+
+-- Ruido filtrado atmosférico
+d6 $ slow 4
+  $ sound "noise"
+  # gain 0.2
+  # hpf (slow 32 $ range 200 1000 perlin)
+  # lpf (slow 64 $ range 400 2000 sine)
+  # room 0.9
+  # size 0.8
+
+-- Ruido granular (textura evolutiva)
+d6 $ striate 64
+  $ sound "noise"
+  # gain 0.15
+  # lpf (slow 16 $ range 300 1500 perlin)
+  # pan (slow 8 sine)
+  # room 0.8
+
+-- Grabaciones de campo (lluvia, ciudad)
+d7 $ sometimesBy 0.5 (|+ speed "0.5")
+  $ sound "rain city wind"
+  # gain 0.3
+  # room 0.7
+  # size 0.9
+  # lpf 3000
+
+-- Clicks y crackles (vinilo/cinta)
+d7 $ degradeBy 0.7
+  $ sound "click*16"
+  # gain 0.1
+  # speed (range 0.5 2 $ rand)
+  # pan rand
+  # crush 8
+
+-- Melodía sutil que aparece y desaparece
+d8 $ whenmod 16 12 (# gain 0)
+  $ slow 4
+  $ note (scale "minor" "0 3 5 7")
+  # sound "superpiano"
+  # gain 0.4
+  # lpf 4000
+  # room 0.8
+  # delay 0.7
+  # delayfb 0.8
+
+-- ============================================
+-- 8. DELAYS - CARACTERÍSTICOS Y MODULADOS
+-- ============================================
+
+-- Delay básico con feedback alto
+d9 $ sound "dubhit*2"
+  # gain 0.4
+  # delay 0.6
+  # delaytime (1/4)
+  # delayfb 0.7
+  # room 0.7
+
+-- Delay modulado (movimiento orgánico)
+d9 $ sound "dubhit*2"
+  # delay (range 0.3 0.8 $ slow 8 perlin)
+  # delaytime (range 0.2 0.6 $ slow 16 sine)
+  # delayfb (range 0.6 0.9 $ slow 12 sine)
+  # room 0.7
+  # size 0.9
+  # gain 0.4
+
+-- Delay en cadena (múltiples repeticiones)
+d9 $ sound "~ cp ~ ~"
+  # delay 0.8
+  # delaytime (1/8)
+  # delayfb 0.85
+  # lpf (slow 8 $ range 1000 4000 sine)
+  # gain 0.5
+
+-- Delay ping-pong (estéreo)
+d9 $ sound "perc*2"
+  # delay 0.7
+  # delaytime (1/6)
+  # delayfb 0.75
+  # pan "0 1"
+  # gain 0.4
+
+-- ============================================
+-- 9. REVERB - ESPACIOSA Y PROFUNDA
+-- ============================================
+
+-- Aplicar reverb profunda global
+dAll $ (# room 0.6 # size 0.8)
+
+-- Reverb modulada en acordes
+d5 $ note "0'min7"
+  # sound "superpwm"
+  # room (slow 16 $ range 0.6 0.95 sine)
+  # size (slow 32 $ range 0.7 1 sine)
+  # gain 0.6
+
+-- Reverb infinita (experimental)
+d10 $ sound "dubhit"
+  # room 0.99
+  # size 1
+  # delay 0.9
+  # delayfb 0.95
+  # gain 0.3
+
+-- ============================================
+-- 10. EVOLUCIÓN Y ANTI-LOOP
+-- ============================================
+
+-- Modulación cruzada de múltiples parámetros
+dAll $ (# lpf (slow 32 $ range 600 3000 perlin))
+     . (# gain (slow 24 $ range 0.7 1 sine))
+     . (# delay (slow 48 $ range 0.2 0.6 perlin))
+
+-- Variación probabilística en hi-hats
+d2 $ sometimesBy 0.2 (# crush 1.5)
+  $ often (# speed 1.1)
+  $ sound "hh*8"
+  # gain 0.6
+
+-- Cambios sutiles cada 8 compases
+d1 $ every 8 (# lpf 100)
+  $ sound "bd*4"
+  # gain 0.9
+  # lpf 120
+
+-- Elementos que aparecen/desaparecen
+d8 $ whenmod 16 12 silence
+  $ sound "pad"
+  # gain 0.5
+
+-- Degradación gradual
+d3 $ degradeBy (slow 16 $ range 0 0.7 saw)
+  $ sound "perc*8"
+  # gain 0.4
+
+-- ============================================
+-- 11. TÉCNICAS AVANZADAS
+-- ============================================
+
+-- Sidechain simulation (ducking)
+d1 $ sound "bd*4" # gain 1
+d5 $ note "0'min7"
+  # sound "superpwm"
+  # gain (segment 4 $ range 0.4 0.8 $ slow 1 saw)
+
+-- Granular synthesis
+d6 $ striate 128
+  $ sound "pad"
+  # speed 0.5
+  # gain 0.3
+  # room 0.9
+
+-- Reverse elements
+d8 $ every 4 rev
+  $ sound "cymbal"
+  # speed "-1"
+  # gain 0.6
+  # room 0.8
+
+-- Chopping y rearranging
+d7 $ chop 16
+  $ sound "ambient"
+  # gain 0.4
+  # room 0.7
+
+-- Phasing (dos capas desincronizadas)
+d5 $ stack [
+  note "0'min7" # sound "superpwm",
+  slow 1.01 $ note "0'min7" # sound "superpwm" # gain 0.6
+]
+
+-- ============================================
+-- 12. ESTRUCTURA TÍPICA
+-- ============================================
+
+-- INTRO (8-16 compases) - Minimalista
+do
+  d1 $ sound "bd*4" # gain 0.9 # lpf 120
+  d2 $ sound "hh*8" # gain 0.6
+  d6 $ sound "noise" # gain 0.2 # lpf 1000 # room 0.9
+
+-- DESARROLLO (32 compases) - Construcción gradual
+do
+  d1 $ sound "bd*4" # gain 0.9 # lpf 120
+  d2 $ sound "hh*8" # gain 0.6
+  d3 $ sound "rim*2 shaker*3" # gain 0.4
+  d4 $ note "0 [~ 3]" # sound "bass" # gain 0.8 # lpf 100
+  d6 $ sound "noise" # gain 0.2 # room 0.9
+
+-- PEAK (32 compases) - Todos los elementos
+do
+  d1 $ sound "bd*4" # gain 0.9 # lpf 120
+  d2 $ sound "hh*8" # gain 0.6
+  d3 $ sound "rim*2 shaker*3" # gain 0.4
+  d4 $ note "0 [~ 3]" # sound "bass" # gain 0.8 # lpf 100
+  d5 $ slow 2 $ note "0'min7 3'maj7" # sound "superpwm" 
+     # gain 0.7 # room 0.8
+  d6 $ sound "noise" # gain 0.2 # room 0.9
+  d7 $ sound "rain" # gain 0.3
+  d9 $ sound "dubhit*2" # delay 0.7 # delayfb 0.8
+
+-- BREAKDOWN (16 compases) - Reducción
+do
+  d1 $ sound "bd*4" # gain 0.8 # lpf 100
+  d5 $ slow 4 $ note "0'min9" # sound "superpwm" # gain 0.6
+  d6 $ sound "noise" # gain 0.25 # room 0.95
+  d2 silence
+  d3 silence
+  d4 silence
+
+-- OUTRO (16 compases) - Fade out
+do
+  d1 $ sound "bd*4" # gain (slow 16 $ range 0.9 0 saw)
+  d5 $ note "0'min7" # sound "superpwm" 
+     # gain (slow 16 $ range 0.6 0 saw)
+  d6 $ sound "noise" # gain (slow 16 $ range 0.2 0 saw)
+
+-- ============================================
+-- 13. TRANSICIONES SUAVES
+-- ============================================
+
+-- Fade in gradual (8 ciclos)
+xfadeIn 1 8 $ sound "bd*4"
+
+-- Crossfade entre patrones
+t1 (clutchIn 8) $ sound "new_pattern"
+
+-- Fade out todo
+dAll $ (# gain (slow 16 $ range 1 0 saw))
+
+-- Stack progresivo
+xfadeIn 1 16 $ stack [d1, d2, d5]
+
+-- ============================================
+-- 14. MIXDOWN Y PROCESAMIENTO
+-- ============================================
+
+-- Compresión suave (simulada)
+dAll $ (# shape 0.3 # gain 0.8)
+
+-- Saturación tipo cinta
+dAll $ (# shape (slow 16 $ range 0.2 0.4 sine))
+
+-- Bitcrushing sutil (textura vintage)
+dAll $ (# crush (slow 32 $ range 0 1.5 perlin))
+
+-- EQ global (corte de graves en elementos no-bass)
+d2 $ sound "hh*8" # hpf 200 # gain 0.6
+d5 $ note "0'min7" # sound "superpwm" # hpf 150 # gain 0.7
+
+-- Filtro paso alto en todo excepto kick y bass
+dAll $ (# hpf 80)
+d1 $ sound "bd*4" # gain 0.9 -- Kick sin HPF
+d4 $ note "0" # sound "bass" # gain 0.8 -- Bass sin HPF
+
+-- ============================================
+-- 15. COMANDOS DE CONTROL
+-- ============================================
+
+-- Silenciar todo
+hush
+
+-- Silenciar pista individual
+d1 silence
+
+-- Solo
+solo 1
+unsolo 1
+
+-- Reset tempo
+setcps (118/60/4)
+
+-- ============================================
+-- 16. FILOSOFÍA Y PRINCIPIOS
+-- ============================================
+
+-- 1. NINGÚN SONIDO DEBE DOMINAR
+--    Balance sutil entre todos los elementos
+
+-- 2. MOVIMIENTO CONSTANTE
+--    Todo modula lentamente (LFOs, Perlin noise)
+
+-- 3. ESPACIO ES PARTE DEL RITMO
+--    El silencio y la reverb crean profundidad
+
+-- 4. EVOLUCIÓN ORGÁNICA
+--    Evitar loops mecánicos, buscar variación
+
+-- 5. TEXTURA SOBRE MELODÍA
+--    El ambiente es tan importante como las notas
+
+-- 6. DELAYS Y REVERBS COMO INSTRUMENTOS
+--    No son efectos, son parte de la composición
+
+-- 7. IMPERFECCIÓN ELEGANTE
+--    Abraza el ruido, el crackle, la saturación
+
+-- 8. PROFUNDIDAD SOBRE VOLUMEN
+--    Graves profundos, mezcla espaciosa
+
+-- ============================================
+-- 17. EJEMPLO COMPLETO - TRACK BÁSICO
+-- ============================================
+
+setcps (118/60/4)
+
+do
+  -- Kick profundo
+  d1 $ sound "bd*4"
+     # gain 0.9
+     # lpf (slow 8 $ range 90 120 sine)
+     # shape 0.25
+     # room 0.3
+  
+  -- Hi-hats sutiles
+  d2 $ sound "hh*8"
+     # gain 0.6
+     # lpf (range 2000 4000 $ slow 16 perlin)
+     # pan (slow 8 $ range 0.3 0.7 sine)
+     # room 0.4
+  
+  -- Percusión sutil
+  d3 $ sound "rim*2 shaker*3"
+     # gain 0.4
+     # pan (slow 12 $ range 0.2 0.8 sine)
+  
+  -- Sub-bass
+  d4 $ note "0 [~ 3]"
+     # sound "bass"
+     # gain 0.8
+     # lpf (slow 8 $ range 60 120 perlin)
+     # shape 0.3
+  
+  -- Acordes atmosféricos
+  d5 $ slow 4
+     $ note "3'min9 8'maj7 10'min7"
+     # sound "superpwm"
+     # gain 0.6
+     # attack 0.6
+     # release 2.5
+     # lpf (range 800 2500 $ slow 8 perlin)
+     # room 0.8
+     # delay 0.6
+     # delayfb 0.7
+  
+  -- Textura ambiental
+  d6 $ sound "noise"
+     # gain 0.2
+     # lpf (slow 32 $ range 400 2000 sine)
+     # room 0.9
+  
+  -- Delays espaciales
+  d9 $ sound "dubhit*2"
+     # delay (range 0.4 0.7 $ slow 8 perlin)
+     # delayfb 0.8
+     # gain 0.4
+
+-- ============================================
+-- 18. TÉCNICAS DE EXPERIMENTACIÓN
+-- ============================================
+
+-- Grabar el wet signal y manipularlo
+-- (requiere setup externo de audio routing)
+
+-- Reverse de reverb
+d10 $ every 4 rev
+   $ sound "pad"
+   # room 0.95
+   # size 1
+   # gain 0.5
+
+-- Time-stretching extremo
+d8 $ slow 4
+   $ sound "ambient"
+   # speed 0.25
+   # gain 0.4
+   # room 0.9
+
+-- Generative patterns con Perlin
+d4 $ note (scale "minor" $ segment 16 $ range 0 7 perlin)
+   # sound "bass"
+   # gain 0.7
+   # lpf 100
+
+-- ============================================
+-- 19. ESCALAS Y ARMONÍA
+-- ============================================
+
+-- Escalas típicas Dub Techno:
+-- Minor, Dorian, Phrygian
+
+-- Progresiones comunes:
+-- i - bIII - v - bVII (Cm - Eb - Gm - Bb)
+-- i - iv - v - i (Cm - Fm - Gm - Cm)
+
+-- Acordes extendidos:
+-- min7, min9, maj7, dom7
+
+-- ============================================
+-- 20. WORKFLOW SUGERIDO
+-- ============================================
+
+-- 1. Empieza con kick + hi-hats (groove)
+-- 2. Añade sub-bass con movimiento
+-- 3. Introduce acordes atmosféricos
+-- 4. Incorpora texturas y ambientes
+-- 5. Aplica delays modulados
+-- 6. Deja evolucionar lentamente
+-- 7. Graba y manipula el wet signal
+-- 8. Experimenta con "accidentes felices"
+
+-- El Dub Techno no se toca: se cultiva 🌱
+-- Cada parámetro es un organismo en evolución
+-- TidalCycles es el ecosistema que le da vida

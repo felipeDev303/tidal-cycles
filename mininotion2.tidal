@@ -43,8 +43,9 @@ d1 $ s "bd sd . mt [ht lt] . arpy arpy:4 . sn:2 cp:2 bd:2*2"
 
 -- one step per cycle with < and >
 
-d1 $ fast 4 $ s "house:0 [house:5 house:5 house:5]" 
-d1 $ fast 4 $ s "house:0 <mt [ht lt] lt> "
+d1 $ fast 2 $ s "house:0 [house:5 house:5]" 
+d2 $ fast 2 $ s "house:6" 
+d3 $ fast 2 $ s "house:4 <mt [ht lt] lt>"
 
 -- stop all sounds
 hush
