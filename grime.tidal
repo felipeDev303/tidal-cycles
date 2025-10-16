@@ -12,6 +12,8 @@
 -- Tempo clásico grime: 137-143 BPM (140 es el estándar)
 setcps (140/60/4)
 
+-- Nota: TidalCycles usa CPS (cycles per second),
+
 -- El tempo de 140 es el punto medio entre jungle (170) y hip hop (90)
 -- Esta configuración es FUNDAMENTAL para el feel del grime
 
@@ -41,6 +43,7 @@ d2 $ sound "hh*16"
   # gain (range 0.6 0.9 $ fast 8 rand)
   # speed (range 0.9 1.2 $ rand)
   # pan (range 0.3 0.7 $ slow 3 sine)
+
 
 -- Drum pattern completo con swing
 d1 $ stack [
