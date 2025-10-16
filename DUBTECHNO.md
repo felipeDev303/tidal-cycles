@@ -237,6 +237,412 @@ TidalCycles permite controlar parámetros globales. Para compresión y limiting,
 mastereq "lowpass 80" -- Ejemplo de EQ global
 ```
 
+## Elementos Sónicos Característicos del Dub Techno
+
+### Filosofía General: Textura, Evolución y Espacio
+
+El sonido característico del Dub Techno se define por una combinación específica de elementos sónicos y técnicas de mezcla que enfatizan **textura**, **evolución sutil** y **espacio**. No se trata solo de la selección de sonidos, sino de cómo estos interactúan a través de efectos y modulaciones.
+
+### 1. Ritmo y Percusión No-Dominante
+
+#### Kick Profundo (80-120 Hz)
+
+El bombo es fundamental y debe ser **filtrado para que solo pasen las frecuencias bajas**. Esto crea un golpe profundo con cuerpo sin dominar el resto de la mezcla.
+
+```haskell
+-- Kick con filtrado característico
+d1 $ sound "bd*4"
+  # gain 0.9
+  # lpf (slow 8 $ range 90 120 sine)
+  # shape 0.25
+  # room 0.3
+  # size 0.4
+
+-- Kick con modulación de cutoff
+d1 $ sound "bd*4"
+  # lpf 115
+  # cutoff (slow 16 $ range 80 110 perlin)
+  # attack 0.05
+  # decay 0.3
+  # sustain 0.4
+  # release 0.3
+```
+
+#### Hi-Hats Sutiles y Variados
+
+Generalmente a contratiempo (off-beat), con **variaciones sutiles en velocidad y paneo dinámico**. Evita la monotonía usando LFOs y probabilidades.
+
+```haskell
+-- Hi-hats con modulación orgánica
+d2 $ sometimesBy 0.3 (|+ speed "0.9 1.1")
+  $ sound "hh*8"
+  # gain 0.6
+  # lpf (range 2000 4000 $ perlin)
+  # pan (slow 8 $ range 0.3 0.7 sine)
+  # room 0.4
+  # size 0.6
+
+-- Hi-hats con contratiempo
+d2 $ sound "~ hh ~ hh ~ hh ~ hh"
+  # gain 0.6
+  # lpf 4000
+  # pan (slow 8 $ sine)
+```
+
+#### Percusión Adicional Sutil
+
+Shakers y rims en capas con **niveles de ganancia bajos** y paneo para integrarse. Deben aparecer y desaparecerse ocasionalmente.
+
+```haskell
+-- Percusión con aparición probabilística
+d3 $ whenmod 8 6 (# gain 0.5)
+  $ sound "rim ~ shaker ~ perc ~"
+  # gain 0.3
+  # room 0.5
+  # pan (slow 8 sine)
+
+-- Percusión aleatoria sutil
+d3 $ degradeBy 0.6
+  $ sound "perc*8"
+  # n (irand 8)
+  # gain 0.4
+  # pan rand
+  # lpf (range 1000 3000 $ perlin)
+```
+
+#### Principio de Mezcla No-Dominante
+
+**Ningún sonido debe dominar**. Los niveles de ganancia están cuidadosamente balanceados para que todos los elementos se mezclen sutilmente.
+
+### 2. Bajo Profundo y con Movimiento
+
+Sub-bass con **modulación sutil** usando filtros modulados por Perlin noise o LFOs lentos para crear movimiento orgánico "subacuático".
+
+```haskell
+-- Bass con modulación Perlin (subacuático)
+d4 $ note "0 [~ 3] [~ 5] ~"
+  # sound "bass"
+  # gain 0.8
+  # lpf (slow 8 $ range 60 120 perlin)
+  # shape 0.3
+  # cutoff (range 80 120 sine)
+  # room 0.2
+  # size 0.5
+  # crush (slow 32 $ range 0 2 perlin)
+
+-- Bass line melódico sutil
+d4 $ slow 2
+  $ note "0 3 5 7"
+  # sound "superpwm"
+  # gain 0.7
+  # lpf (slow 4 $ range 80 150 sine)
+  # attack 0.2
+  # decay 0.4
+  # sustain 0.6
+  # release 0.8
+  # room 0.3
+```
+
+### 3. Acordes Atmosféricos y Jazzy
+
+Los acordes son una seña de identidad, a menudo **extendidos** (Ebm9, Bbm7, Abmaj7) con **influencia del jazz y deep house**.
+
+```haskell
+-- Progresión típica Dub Techno
+d5 $ slow 4
+  $ note "[3'min9 8'maj7 10'min7]"
+  # sound "superpwm"
+  # gain 0.6
+  # attack 0.6
+  # release 2.5
+  # lpf (range 800 2500 $ slow 8 perlin)
+  # room 0.8
+  # size 0.9
+  # delay 0.6
+  # delayfb 0.7
+
+-- Pads largos y profundos
+d5 $ slow 8
+  $ note "0'min9"
+  # sound "superpwm"
+  # gain 0.5
+  # attack 2
+  # release 6
+  # lpf 1500
+  # room 0.9
+  # size 1
+  # delay 0.8
+  # delayfb 0.8
+```
+
+**Características clave:**
+
+- Envolventes largas (attack y release amplios)
+- Reverb espaciosa (room amplio con size grande)
+- Delays paralelos con feedback alto
+- Inversiones automáticas para variación sin complejidad melódica
+
+### 4. Texturas y Capas Ambientales
+
+La creación de **atmósfera envolvente y texturas** es crucial para el género.
+
+```haskell
+-- Ruido filtrado atmosférico
+d6 $ slow 4
+  $ sound "noise"
+  # gain 0.2
+  # hpf (slow 32 $ range 200 1000 perlin)
+  # lpf (slow 64 $ range 400 2000 sine)
+  # room 0.9
+  # size 0.8
+
+-- Ruido granular (textura evolutiva)
+d6 $ striate 64
+  $ sound "noise"
+  # gain 0.15
+  # lpf (slow 16 $ range 300 1500 perlin)
+  # pan (slow 8 sine)
+  # room 0.8
+
+-- Clicks y crackles (vinilo/cinta)
+d7 $ degradeBy 0.7
+  $ sound "click*16"
+  # gain 0.1
+  # speed (range 0.5 2 $ rand)
+  # pan rand
+  # crush 8
+```
+
+**Técnicas adicionales:**
+
+- Grabaciones de campo (lluvia, ciudad, viento)
+- Elementos que aparecen y desaparecen ocasionalmente
+- Melodías sutiles que se activan condicionalmente
+
+### 5. Delays y Reverbs Característicos
+
+Son los **efectos más distintivos** del Dub Techno.
+
+```haskell
+-- Delay modulado (movimiento orgánico)
+d9 $ sound "dubhit*2"
+  # delay (range 0.3 0.8 $ slow 8 perlin)
+  # delaytime (range 0.2 0.6 $ slow 16 sine)
+  # delayfb (range 0.6 0.9 $ slow 12 sine)
+  # room 0.7
+  # size 0.9
+  # gain 0.4
+
+-- Delay en cadena (múltiples repeticiones)
+d9 $ sound "~ cp ~ ~"
+  # delay 0.8
+  # delaytime (1/8)
+  # delayfb 0.85
+  # lpf (slow 8 $ range 1000 4000 sine)
+  # gain 0.5
+
+-- Reverb infinita (experimental)
+d10 $ sound "dubhit"
+  # room 0.99
+  # size 1
+  # delay 0.9
+  # delayfb 0.95
+  # gain 0.3
+```
+
+**Aspectos clave:**
+
+- Delays en cadena con feedback alto
+- Delays paralelos que se activan ocasionalmente
+- Reverbs amplias y espaciosas
+- Automatizar y modular parámetros constantemente
+- Técnica: usar señal wet del reverb/delay, grabarla y manipularla
+
+### 6. Evolución Continua y Anti-Loop
+
+Se evita la monotonía del loop mediante **variación constante**.
+
+```haskell
+-- Modulación cruzada de múltiples parámetros
+dAll $ (# lpf (slow 32 $ range 600 3000 perlin))
+     . (# gain (slow 24 $ range 0.7 1 sine))
+     . (# delay (slow 48 $ range 0.2 0.6 perlin))
+
+-- Variación probabilística
+d2 $ sometimesBy 0.2 (# crush 1.5)
+  $ often (# speed 1.1)
+  $ sound "hh*8"
+  # gain 0.6
+
+-- Cambios sutiles cada 8 compases
+d1 $ every 8 (# lpf 100)
+  $ sound "bd*4"
+  # gain 0.9
+  # lpf 120
+
+-- Elementos que aparecen/desaparecen
+d8 $ whenmod 16 12 silence
+  $ sound "pad"
+  # gain 0.5
+
+-- Degradación gradual
+d3 $ degradeBy (slow 16 $ range 0 0.7 saw)
+  $ sound "perc*8"
+  # gain 0.4
+```
+
+**Técnicas de evolución:**
+
+- LFOs (`sine`, `saw`, `tri`) con modulación lenta
+- Perlin noise para cambios orgánicos
+- Funciones de probabilidad (`sometimes`, `often`, `rarely`)
+- Modulaciones lentas (`slow 16`, `slow 32`, `slow 64`)
+
+### 7. Mezcla y Procesamiento Avanzado
+
+#### Compresión Suave
+
+```haskell
+-- Compresión suave (simulada)
+dAll $ (# shape 0.3 # gain 0.8)
+
+-- Saturación tipo cinta
+dAll $ (# shape (slow 16 $ range 0.2 0.4 sine))
+```
+
+#### Emulación de Hardware Vintage
+
+```haskell
+-- Bitcrushing sutil (textura vintage)
+dAll $ (# crush (slow 32 $ range 0 1.5 perlin))
+
+-- EQ global
+d2 $ sound "hh*8" # hpf 200 # gain 0.6
+d5 $ note "0'min7" # sound "superpwm" # hpf 150 # gain 0.7
+```
+
+#### Modulación Cruzada
+
+Usar un LFO para modular múltiples parámetros simultáneamente crea interacciones complejas y orgánicas.
+
+```haskell
+-- Phasing (dos capas desincronizadas)
+d5 $ stack [
+  note "0'min7" # sound "superpwm",
+  slow 1.01 $ note "0'min7" # sound "superpwm" # gain 0.6
+]
+```
+
+#### Experimentación y "Accidentes Felices"
+
+Se anima a **experimentar con efectos de forma extrema**, grabar y remuestrear los resultados para descubrir sonidos únicos.
+
+```haskell
+-- Reverse elements
+d8 $ every 4 rev
+  $ sound "cymbal"
+  # speed "-1"
+  # gain 0.6
+  # room 0.8
+
+-- Chopping y rearranging
+d7 $ chop 16
+  $ sound "ambient"
+  # gain 0.4
+  # room 0.7
+
+-- Granular synthesis
+d6 $ striate 128
+  $ sound "pad"
+  # speed 0.5
+  # gain 0.3
+  # room 0.9
+```
+
+### 8. Rangos de Tempo por Subgénero
+
+```haskell
+-- Deep Dub Techno: 115-118 BPM
+setcps (115/60/4)
+
+-- Classic Dub Techno: 118-122 BPM
+setcps (118/60/4)
+
+-- Minimal Dub: 120-124 BPM
+setcps (122/60/4)
+
+-- Modulación sutil del tempo (efecto cinta vintage)
+setcps (slow 16 $ range 0.46 0.52 sine)
+```
+
+## Estructura Típica de un Track
+
+### INTRO (8-16 compases) - Minimalista
+
+```haskell
+do
+  d1 $ sound "bd*4" # gain 0.9 # lpf 120
+  d2 $ sound "hh*8" # gain 0.6
+  d6 $ sound "noise" # gain 0.2 # lpf 1000 # room 0.9
+```
+
+### DESARROLLO (32 compases) - Construcción gradual
+
+```haskell
+do
+  d1 $ sound "bd*4" # gain 0.9 # lpf 120
+  d2 $ sound "hh*8" # gain 0.6
+  d3 $ sound "rim*2 shaker*3" # gain 0.4
+  d4 $ note "0 [~ 3]" # sound "bass" # gain 0.8 # lpf 100
+  d6 $ sound "noise" # gain 0.2 # room 0.9
+```
+
+### PEAK (32 compases) - Todos los elementos
+
+```haskell
+do
+  d1 $ sound "bd*4" # gain 0.9 # lpf 120
+  d2 $ sound "hh*8" # gain 0.6
+  d3 $ sound "rim*2 shaker*3" # gain 0.4
+  d4 $ note "0 [~ 3]" # sound "bass" # gain 0.8 # lpf 100
+  d5 $ slow 2 $ note "0'min7 3'maj7" # sound "superpwm" # gain 0.7 # room 0.8
+  d6 $ sound "noise" # gain 0.2 # room 0.9
+  d7 $ sound "rain" # gain 0.3
+  d9 $ sound "dubhit*2" # delay 0.7 # delayfb 0.8
+```
+
+### BREAKDOWN (16 compases) - Reducción
+
+```haskell
+do
+  d1 $ sound "bd*4" # gain 0.8 # lpf 100
+  d5 $ slow 4 $ note "0'min9" # sound "superpwm" # gain 0.6
+  d6 $ sound "noise" # gain 0.25 # room 0.95
+  d2 silence
+  d3 silence
+  d4 silence
+```
+
+### OUTRO (16 compases) - Fade out
+
+```haskell
+do
+  d1 $ sound "bd*4" # gain (slow 16 $ range 0.9 0 saw)
+  d5 $ note "0'min7" # sound "superpwm" # gain (slow 16 $ range 0.6 0 saw)
+  d6 $ sound "noise" # gain (slow 16 $ range 0.2 0 saw)
+```
+
+## Filosofía y Principios del Dub Techno
+
+1. **Ningún sonido debe dominar** - Balance sutil entre todos los elementos
+2. **Movimiento constante** - Todo modula lentamente (LFOs, Perlin noise)
+3. **Espacio es parte del ritmo** - El silencio y la reverb crean profundidad
+4. **Evolución orgánica** - Evitar loops mecánicos, buscar variación
+5. **Textura sobre melodía** - El ambiente es tan importante como las notas
+6. **Delays y reverbs como instrumentos** - No son efectos, son parte de la composición
+7. **Imperfección elegante** - Abraza el ruido, el crackle, la saturación
+8. **Profundidad sobre volumen** - Graves profundos, mezcla espaciosa
+
 ## Artistas de Referencia
 
 - Basic Channel / Maurizio
