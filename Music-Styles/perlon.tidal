@@ -43,7 +43,7 @@ d1 $ sound "bd*4"
   # begin 0.01  -- Ajustar start point manualmente
   # lpf 110
   # shape 0.5
-  # crush 0.5  -- Degradación sutil
+  # crush 0.1  -- Degradación sutil
 
 -- Kick con Glue Compressor simulation
 d1 $ sound "bd*4"
@@ -188,14 +188,14 @@ d9 $ note "[0 ~ 3 ~]*2"
   # nudge (range 0 0.02 $ rand)  -- Swing manual
 
 -- Reese bass Perlon (saturado y oscuro)
-d9 $ note "0(3,8)"
-  # sound "supersaw"
-  # gain 0.38
-  # shape 0.95
-  # lpf 140
-  # detune 0.5
-  # crush 4
-  # room 0.08
+d9 $ note "0(3,8)" -- Notas 0 y 3 con swing 
+  # sound "supersaw" -- Crujiente
+  # gain 0.5 -- Volumen moderado
+  # shape 0.95 -- Saturación alta
+  # lpf 140 -- Filtrado bajo
+  # detune 0.5 -- Desafina para grosor
+  # crush 4 -- Crujiente
+  # room 0.08 -- Reverb sutil
 
 -- ============================================
 -- 7. FRECUENCIAS ALTAS LIMITADAS

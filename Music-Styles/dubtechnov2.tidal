@@ -10,7 +10,7 @@
 -- ============================================
 
 -- Tempo típico Dub Techno: 115-122 BPM (deep, hypnotic groove)
-setcps (118/60/4)
+setcps (115/60/4)
 
 -- Modulación sutil del tempo (efecto cinta vintage)
 setcps (slow 16 $ range 0.46 0.52 sine)
