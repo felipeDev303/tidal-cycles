@@ -20,8 +20,8 @@ d1 $ s "[house:0 [house:5 house:2]/2]*2" -- slow down
 d1 $ s "house:0 house:5/2" -- slow down
 
 d1 $ s "[house:0 [house:5 house:2 house:4 house:3]/2]*2" -- repeat
-d1 $ fast 4 $ s "house:0 [house:2 house:5 house:5 house:2]/2" -- faster
-
+d1 $ fast 4 $ s "house:0 [house:2 house:14 house:5 house:2]/4" -- faster
+hush
 
 -- polyphony with , 
 d1 $ s "house:0 house:6"
@@ -49,3 +49,36 @@ d3 $ fast 2 $ s "house:4 <mt [ht lt] lt>"
 
 -- stop all sounds
 hush
+
+d1 $ sound "house:0 house:7 house:7" -- steady
+d1 $ sound "house:0 house:7*3" 
+
+d1 $ sound "house:0 house:7!4" 
+d1 $ sound "house:0 house:7!!!" 
+
+d1 $ sound "house:0 [house:7 house:7]"
+d1 $ sound "house:0 house:7*2"
+
+d1 $ sound "house:0 house:7 house:0 house:7 house:0 house:7"
+d1 $ sound "[house:0 house:7]!3"
+d1 $ sound "[house:0 house:7]!!"
+
+d1 $ n "0 [1 2 3]/3" # sound "house" -- ralentar notas
+d1 $ n "0 <1 2 3>" # sound "house" -- un paso por ciclo
+d1 $ n "[0 0 2] [4 5 6 7] [4 1] [0 3 0 3]" # sound "east" -- pies rítmicos
+
+d1 $ n "0 0 2 . 4 5 6 7 . 4 1 . 0 3 0 3" # sound "east" -- pies rítmicos
+
+d1 $ n "0 ! 2 . 4 5 6 7 . 4 1 . [0 3]!" # sound "east" -- pies rítmicos
+
+d1 $ sound "house:0 house:7 house:0 house:7 house:0 house:7 house:4@0.5"
+
+d1 $ sound "[house:0 house:7]!3 house:4"
+
+d1 $ sound "[house:0 house:7 house:0 house:7 house:0 house:7] house:4"
+
+d1 $ sound "bd sd sd sd bd [sd sd sd]"
+
+d1 $ sound "bd sd!4 sd*3"
+
+hush 
