@@ -1,0 +1,15 @@
+d1 $ sound "bd" 
+
+-- Squiz es un algoritmo simple para elevar el tono, que recuerda a una 
+-- extraña mezcla de filtro, modulador de anillo y desplazador de tono.
+-- Los valores van del 1 al infinito y representan la razón de tono; 
+-- por ejemplo, un valor de 2 eleva el tono una octava.
+d1 $ s "bd:3*4" # squiz "2  2  2  2" 
+
+-- vowel convierte un patrón de cuerdas en un patrón de control que 
+-- crea un filtro de formantes para producir sonidos vocálicos en muestras.
+-- Usa los valores , , , , y para añadir el efecto. 
+-- El resto del carácter no produce efecto: aeiou~
+
+d1 $ n "0 4 3 4" # sound "arpy" vowel "a"
+hush

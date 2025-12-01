@@ -1,0 +1,35 @@
+setpcs (160/60/2) -- 160 BPM, 2 beats per cycle
+
+-- Definición de patrones de percusión para Tech House
+let kick = "808bd:2*4"
+    snare = "~ 808sd:4 ~ 808sd:4"
+    hatLoop = $ loopAt 4 $ sound "breaks125" # gain 0.9 -- Hi-hat sample looped at 4 beats 
+
+-- Patrón básico de Tech House
+d1 $ kick
+d2 $ snare
+d3 $ hatLoop
+
+-- Variación con silencios y capas
+d1 $ kick #  gain 1.1
+d2 $ every 8 (mask "~") $ s kick
+
+-- Añadiendo capas y efectos
+d1 $ stack [
+     every 6 (mask "~") $ s kick,
+     s snare
+    ]
+
+d2 $ hatLoop
+
+d1 $ silence
+d2 $ silence
+d3 $ silence
+hush
+
+d2 $ juxBy 0.6 (|* speed "4") $ loopAt "<4 4 4 4>" $ chop 12 $ sound "fm:3"
+d1 $ chop 16 $ sound "arpy ~ feel*4 newnotes"
+d1 $ chop "<16 128 32>" $ sound "arpy ~ feel*1 newnotes"
+d1 $ slow 2 $ rev $ chop 16 $ sound "breaks125"
+d1 $ slow 2 $ jux rev $ chop 16 $ sound "breaks125"
+d1 $ chop 256 $ sound "bd*4 [sn cp] [hh future]*2 [cp feel]"
