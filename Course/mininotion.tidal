@@ -34,6 +34,11 @@ d1 $ sound "hh sd hh sd"
 -- And squeeze a two-step subsequence inside that third step
 d1 $ sound "hh sd [hh hh] sd"
 
+d1 $ n "[0 1 2] [0 3 2 4]" # s "bd"
+
+d2 $ n "[0 3] [0 3] [0 3] [0 3]" # s "house"
+
+hush
 -- It works for 'n' patterns too
 d1 $ n "7 7 [7 7 7] 7" # s "house"
 

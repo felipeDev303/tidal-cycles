@@ -47,7 +47,7 @@ d1 $ fast 2 $ s "house:0 [house:5 house:5]"
 d2 $ fast 2 $ s "house:6" 
 d3 $ fast 2 $ s "house:4 <mt [ht lt] lt>"
 
--- stop all sounds
+-- stop all sounds (SEGUIR ACÁ)
 hush
 
 d1 $ sound "house:0 house:7 house:7" -- steady
