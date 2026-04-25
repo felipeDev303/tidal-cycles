@@ -16,7 +16,7 @@ d2 $ struct "0000 1000 0000 1000" $ s "sd:3" # hpf 300
 d3 $ off (1/16) (|* gain "0 0 0.8") $ struct "1010 1010 1010 1010" $ s "808:7" 
 
 -- but before we continue, let's fix  the bpm 
-setcps (160/60/4) -- 174 bpm, 16th notes
+setcps (178/60/4) -- 178 bpm, 16th notes
 
 -- now we're talking!
 
@@ -31,10 +31,12 @@ d5 $ slow 4
     $ off (1/32) (|* note 12)
     $ off (1/16) (|* note 5)
     $ n (scale "major" "{0 7 5 3 10}%8") 
-    # sound "ades2" 
+    # sound "casio:7" 
     |+ n 36
     # room 1
     # gain 0.8
+
+
 
 hush
 
@@ -43,3 +45,4 @@ d1 silence
 d2 silence
 d3 silence
 d4 silence
+d5 silence

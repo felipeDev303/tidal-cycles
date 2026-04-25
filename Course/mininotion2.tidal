@@ -82,3 +82,5 @@ d1 $ sound "bd sd sd sd bd [sd sd sd]"
 d1 $ sound "bd sd!4 sd*3"
 
 hush 
+
+tidal_ver

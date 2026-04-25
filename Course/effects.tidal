@@ -1,0 +1,8 @@
+-- squiz: distortion
+-- speed: 1 is normal, 2 is double, 0.5 is half, etc.
+-- crush
+-- vowel: a, e, i, o, u
+
+d1 $ sound "house*8" # n "0 8 [7 6] 5" 
+
+hush
