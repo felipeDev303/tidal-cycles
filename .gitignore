@@ -1,0 +1,38 @@
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Haskell / Cabal / Stack
+dist/
+dist-newstyle/
+.stack-work/
+.cabal-sandbox/
+cabal.sandbox.config
+*.hi
+*.o
+
+# SuperCollider
+*.scsyndef
+*.scd~
+
+# Audio renders y grabaciones locales
+recordings/
+renders/
+*.wav
+*.aif
+*.aiff
+*.flac
+*.mp3
+*.ogg
+
+# Permitir samples ubicados explícitamente en una carpeta de samples del repo
+!samples/**
+
+# Temporales
+*.bak
+*.tmp
+*.log

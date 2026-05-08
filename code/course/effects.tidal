@@ -1,3 +1,4 @@
+-- Reference: https://tidalcycles.org/docs/reference/audio_effects/
 -- squiz: distortion
 -- speed: 1 is normal, 2 is double, 0.5 is half, etc.
 -- crush
