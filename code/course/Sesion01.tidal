@@ -1,0 +1,67 @@
+-- Dos eventos por ciclo
+d1 $ sound "bd sn"
+
+-- Cuatro eventos: el doble de rápido (porque entran 4 en el mismo ciclo)
+d1 $ sound "bd hh sn hh"
+
+-- Más eventos = más velocidad aparente
+d1 $ sound "bd bd hh bd sn bd hh bd"
+
+setcps 0.6   -- 0.6 ciclos por segundo (más lento)
+setcps 1     -- ~120 BPM si pensamos en 2 negras por ciclo
+
+-- Silencio con ~
+d1 $ sound "bd ~ sn ~"
+
+-- Subagrupación con [ ]: dos eventos en un solo paso
+d1 $ sound "bd [bd cp] bd bd"
+
+-- Anidación: combina y multiplica posibilidades
+d1 $ sound "[[bd bd] hh sn] [bd cp]"
+
+-- Seleccionar un sample concreto de la carpeta con :N
+d1 $ sound "bd:1 sn:3 bd:0 sn:5"
+
+-- Equivalente con la función n
+d1 $ sound "bd sn bd sn" # n "1 3 0 5"
+
+-- *  repite COMPRIMIENDO el evento
+d1 $ sound "bd sd*2"          -- el sd se divide en dos golpes
+
+-- /  estira (toca el evento cada N ciclos en su sitio)
+d1 $ sound "bd sn/2"           -- sn aparece sólo en ciclos pares
+
+-- < >  alternancia entre ciclos
+d1 $ sound "bd <sn cp arpy>"   -- ciclo 1: bd sn, ciclo 2: bd cp, ciclo 3: bd arpy
+
+-- |  elige al azar entre opciones
+d1 $ sound "[bd|cp|sn] hh*4"
+
+-- ?  degrada (50% de chance de quitar el evento)
+d1 $ sound "hh*16?"
+
+-- Equivalentes
+d1 $ sound "bd hh sn hh"
+d1 (sound "bd hh sn hh")
+
+-- Encadenando funciones con $: se lee de derecha a izquierda
+d1 $ fast 2 $ rev $ sound "bd hh arpy"
+-- = d1 (fast 2 (rev (sound "bd hh arpy")))
+
+-- Combinando parámetros con #: la estructura viene del lado IZQUIERDO
+d1 $ sound "bd hh sn hh" # gain "1 0.7 0.5 0.7" # pan  "0 1 0.5 1"
+
+-- Tres patrones simultáneos en sincronía
+d1 $ sound "bd(5,8)"
+d2 $ sound "bass*8" # gain 0.7
+d3 $ sound "arpy(3,8)" # speed (irand 12)
+
+-- Solo, mute, silencio puntual
+solo 2
+unsolo 2
+mute 1
+unmuteAll
+d3 silence
+
+-- Apaga todo
+hush
